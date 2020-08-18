@@ -15,5 +15,5 @@
 homepage: "https://www.saleswingsapp.com"
 documentation: "https://www.example.com/documentation"
 versions:
-  - sha: 
+  - sha: 750757abe6d4265e00ab1ed4030de3507c631612
     changeNotes: Initial release.
