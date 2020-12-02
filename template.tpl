@@ -57,7 +57,7 @@ ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 const log = require('logToConsole');
 const callInWindow = require('callInWindow');
 
-if(!callInWindow('sw','custom-event',{kind: data.kind,  data: data.data})){
+if(!callInWindow('sw','customEvent',{kind: data.kind,  data: data.data})){
   log('Tag not configured properly or script not possible to load');
 }
 
