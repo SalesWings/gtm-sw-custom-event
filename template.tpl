@@ -1,11 +1,4 @@
-___TERMS_OF_SERVICE___
-
-By creating or modifying this file you agree to Google Tag Manager's Community
-Template Gallery Developer Terms of Service available at
-https://developers.google.com/tag-manager/gallery-tos (or such other URL as
-Google may provide), as modified from time to time.
-
-﻿___INFO___
+___INFO___
 
 {
   "type": "TAG",
@@ -13,7 +6,11 @@ Google may provide), as modified from time to time.
   "version": 1,
   "securityGroups": [],
   "displayName": "SalesWings Custom Event",
-  "categories": ["SALES","PERSONALIZATION","ATTRIBUTION"],
+  "categories": [
+    "SALES",
+    "PERSONALIZATION",
+    "ATTRIBUTION"
+  ],
   "brand": {
     "id": "brand_dummy",
     "displayName": "SD Technologies SA",
@@ -47,6 +44,14 @@ ___TEMPLATE_PARAMETERS___
     "displayName": "Event Name",
     "simpleValueType": true,
     "help": "Insert a dynamic variable or a text which will show in the SalesWings activity history."
+  },
+  {
+    "type": "TEXT",
+    "name": "pid",
+    "displayName": "Advanced: Target Project ID",
+    "simpleValueType": true,
+    "canBeEmptyString": false,
+    "help": "Only for domains with multiple SalesWings projects enabled: this field selects the target project for this custom event. If empty, the custom event will be sent to all projects. For domains with a single SalesWings project enabled, this field should be left empty."
   }
 ]
 
@@ -56,8 +61,7 @@ ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 // Укажите здесь код шаблона.
 const log = require('logToConsole');
 const callInWindow = require('callInWindow');
-
-if(!callInWindow('sw','customEvent',{kind: data.kind,  data: data.data})){
+if(!callInWindow('sw','custom-event',{kind: data.kind,  data: data.data, pid: data.pid})){
   log('Tag not configured properly or script not possible to load');
 }
 
