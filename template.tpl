@@ -1,4 +1,11 @@
-___INFO___
+___TERMS_OF_SERVICE___
+
+By creating or modifying this file you agree to Google Tag Manager's Community
+Template Gallery Developer Terms of Service available at
+https://developers.google.com/tag-manager/gallery-tos (or such other URL as
+Google may provide), as modified from time to time.
+
+﻿___INFO___
 
 {
   "type": "TAG",
@@ -6,11 +13,7 @@ ___INFO___
   "version": 1,
   "securityGroups": [],
   "displayName": "SalesWings Custom Event",
-  "categories": [
-    "SALES",
-    "PERSONALIZATION",
-    "ATTRIBUTION"
-  ],
+  "categories": ["SALES","PERSONALIZATION","ATTRIBUTION"],
   "brand": {
     "id": "brand_dummy",
     "displayName": "SD Technologies SA",
@@ -61,6 +64,7 @@ ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 // Укажите здесь код шаблона.
 const log = require('logToConsole');
 const callInWindow = require('callInWindow');
+
 if(!callInWindow('sw','custom-event',{kind: data.kind,  data: data.data, pid: data.pid})){
   log('Tag not configured properly or script not possible to load');
 }
