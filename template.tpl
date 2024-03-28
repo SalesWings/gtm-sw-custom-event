@@ -61,7 +61,6 @@ ___TEMPLATE_PARAMETERS___
 
 ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
-// Укажите здесь код шаблона.
 const log = require('logToConsole');
 const callInWindow = require('callInWindow');
 
@@ -69,7 +68,6 @@ if(!callInWindow('sw','custom-event',{kind: data.kind,  data: data.data, pid: da
   log('Tag not configured properly or script not possible to load');
 }
 
-// Вызовите data.gtmOnSuccess после выполнения тега.
 data.gtmOnSuccess();
 
 
@@ -79,7 +77,7 @@ ___WEB_PERMISSIONS___
   {
     "instance": {
       "key": {
-        "publicId": "logging",
+        "publicIfd": "logging",
         "versionId": "1"
       },
       "param": [
