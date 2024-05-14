@@ -15,6 +15,8 @@
 homepage: "https://www.saleswingsapp.com"
 documentation: "https://www.saleswingsapp.com/en/"
 versions:
+  - sha: a0f99ed2e0990a5dca90d0101cd1205f48515284
+    changeNotes: Minor naming fix
   - sha: 83205b05d01c6d2c81c62a5d1e0d0c9425070c81
     changeNotes: Cyrillic comments removed from template.
   - sha: dfbb4663682d039d224d1c095c9253d10958b785
