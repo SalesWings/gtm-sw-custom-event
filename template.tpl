@@ -77,7 +77,7 @@ ___WEB_PERMISSIONS___
   {
     "instance": {
       "key": {
-        "publicIfd": "logging",
+        "publicId": "logging",
         "versionId": "1"
       },
       "param": [
