@@ -25,6 +25,7 @@ sha=$(git rev-parse HEAD)
 
 # Create a new branch for the release
 release_branch="release-$sha"
+git pull
 git checkout -b "$release_branch"
 
 changenote="$1"
@@ -41,4 +42,18 @@ echo "New entry with SHA '$sha' added to the YAML file."
 git add "$yaml_file"
 git commit -m "Release version $sha"
 
-echo "Changes committed with message: 'Release version $sha'."
+# Push the branch to origin
+git push -u origin "$release_branch"
+
+# Open the PR URL in the default browser
+pr_url="https://github.com/SalesWings/gtm-sw-custom-event/pull/new/$release_branch"
+echo "Opening PR URL in the browser: $pr_url"
+if command -v xdg-open &>/dev/null; then
+  xdg-open "$pr_url"
+elif command -v open &>/dev/null; then
+  open "$pr_url"
+else
+  echo "Please open this URL manually: $pr_url"
+fi
+
+echo "Branch '$release_branch' created, committed, pushed, and PR URL opened."
