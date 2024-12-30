@@ -13,19 +13,24 @@ if [[ -z "$1" ]]; then
   exit 1
 fi
 
-changenote="$1"
-
-# File path of the YAML file
-yaml_file="metadata.yaml"
+# Ensure the current branch is 'main'
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+if [[ "$current_branch" != "main" ]]; then
+  echo "Error: You must be on the 'main' branch to run this script. Current branch: $current_branch"
+  exit 1
+fi
 
 # Get the SHA of the latest commit (HEAD)
 sha=$(git rev-parse HEAD)
 
-# Check if the YAML file exists
-if [[ ! -f $yaml_file ]]; then
-  echo "Error: YAML file '$yaml_file' not found!"
-  exit 1
-fi
+# Create a new branch for the release
+release_branch="release-$sha"
+git checkout -b "$release_branch"
+
+changenote="$1"
+
+# File path of the YAML file
+yaml_file="metadata.yaml"
 
 # Use yq to add the new entry to the top of the "versions" array
 yq eval ".versions = [{\"sha\":\"$sha\",\"changeNotes\":\"$changenote\"}] + .versions" "$yaml_file" -i
