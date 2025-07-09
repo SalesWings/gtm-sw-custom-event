@@ -50,6 +50,49 @@ ___TEMPLATE_PARAMETERS___
   },
   {
     "type": "GROUP",
+    "name": "eventPropertiesGroup",
+    "displayName": "Event Property / Lead Attribute Values",
+    "groupStyle": "ZIPPY_CLOSED",
+    "subParams": [
+      {
+        "type": "SIMPLE_TABLE",
+        "name": "eventProperties",
+        "newRowButtonText": "Add",
+        "simpleTableColumns": [
+          {
+            "defaultValue": "",
+            "displayName": "ID",
+            "name": "id",
+            "type": "TEXT",
+            "valueValidators": [
+              {
+                "type": "NON_EMPTY"
+              },
+              {
+                "type": "REGEX",
+                "args": [
+                  "^[a-zA-Z0-9_]*$"
+                ]
+              }
+            ]
+          },
+          {
+            "defaultValue": "",
+            "displayName": "Value",
+            "name": "value",
+            "type": "TEXT",
+            "valueValidators": [
+              {
+                "type": "NON_EMPTY"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "GROUP",
     "name": "advancedGroup",
     "displayName": "Advanced",
     "groupStyle": "ZIPPY_CLOSED",
@@ -72,7 +115,24 @@ ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 const log = require('logToConsole');
 const callInWindow = require('callInWindow');
 
-if(!callInWindow('sw','custom-event',{kind: data.kind,  data: data.data, pid: data.pid})){
+// Build the event object
+let eventObj = {
+  kind: data.kind,
+  data: data.data,
+  pid: data.pid
+};
+
+// Add values object if eventProperties are present
+if (data.eventProperties && data.eventProperties.length > 0) {
+  eventObj.values = {};
+  data.eventProperties.forEach(function(prop) {
+    if (prop.id && prop.value) {
+      eventObj.values[prop.id] = prop.value;
+    }
+  });
+}
+
+if(!callInWindow('sw','custom-event', eventObj)){
   log('Tag not configured properly or script not possible to load');
 }
 
