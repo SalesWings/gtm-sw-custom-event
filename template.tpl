@@ -49,12 +49,20 @@ ___TEMPLATE_PARAMETERS___
     "help": "Insert a dynamic variable or a text which will show in the SalesWings activity history."
   },
   {
-    "type": "TEXT",
-    "name": "pid",
-    "displayName": "Advanced: Target Project ID",
-    "simpleValueType": true,
-    "canBeEmptyString": false,
-    "help": "Only for domains with multiple SalesWings projects enabled: this field selects the target project for this custom event. If empty, the custom event will be sent to all projects. For domains with a single SalesWings project enabled, this field should be left empty."
+    "type": "GROUP",
+    "name": "advancedGroup",
+    "displayName": "Advanced",
+    "groupStyle": "ZIPPY_CLOSED",
+    "subParams": [
+      {
+        "type": "TEXT",
+        "name": "pid",
+        "displayName": "Target Project ID",
+        "simpleValueType": true,
+        "canBeEmptyString": false,
+        "help": "Only for domains with multiple SalesWings projects enabled: this field selects the target project for this custom event. If empty, the custom event will be sent to all projects. For domains with a single SalesWings project enabled, this field should be left empty."
+      }
+    ]
   }
 ]
 
