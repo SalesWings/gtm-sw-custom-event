@@ -77,6 +77,26 @@ ___TEMPLATE_PARAMETERS___
             ]
           },
           {
+            "defaultValue": "string",
+            "displayName": "Type",
+            "name": "type",
+            "type": "SELECT",
+            "selectItems": [
+              {
+                "value": "number",
+                "displayValue": "Number"
+              },
+              {
+                "value": "boolean",
+                "displayValue": "True or False"
+              },
+              {
+                "value": "string",
+                "displayValue": "Text"
+              }
+            ]
+          },
+          {
             "defaultValue": "",
             "displayName": "Value",
             "name": "value",
@@ -114,6 +134,7 @@ ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
 const log = require('logToConsole');
 const callInWindow = require('callInWindow');
+const makeNumber = require('makeNumber');
 
 // Build the event object
 let eventObj = {
@@ -127,7 +148,32 @@ if (data.eventProperties && data.eventProperties.length > 0) {
   eventObj.values = {};
   data.eventProperties.forEach(function(prop) {
     if (prop.id && prop.value) {
-      eventObj.values[prop.id] = prop.value;
+      let parsedValue = prop.value;
+      
+      // Parse value based on type
+      if (prop.type === 'boolean') {
+        if (prop.value.toLowerCase() === 'true') {
+          parsedValue = true;
+        } else if (prop.value.toLowerCase() === 'false') {
+          parsedValue = false;
+        } else {
+          // Skip invalid boolean values
+          log('Invalid boolean value for property ' + prop.id + ': ' + prop.value);
+          return;
+        }
+      } else if (prop.type === 'number') {
+        let numValue = makeNumber(prop.value);
+        if (numValue !== null && numValue !== undefined && numValue === numValue) {
+          parsedValue = numValue;
+        } else {
+          // Skip invalid number values
+          log('Invalid number value for property ' + prop.id + ': ' + prop.value);
+          return;
+        }
+      }
+      // For 'string' type or default, keep as string
+      
+      eventObj.values[prop.id] = parsedValue;
     }
   });
 }
@@ -286,6 +332,60 @@ scenarios:
 
     // Verify that the tag finished successfully.
     assertApi('gtmOnSuccess').wasCalled();
+
+- name: test with event properties
+  code: |-
+    const mockData = {
+      pid:'4723ad53-8a19-43ab-9b0a-e6d3f1fbb2e4',
+      kind:'conversion',
+      data:'user signup',
+      eventProperties: [
+        {id: 'user_id', type: 'string', value: 'user123'},
+        {id: 'premium', type: 'boolean', value: 'true'},
+        {id: 'score', type: 'number', value: '95.5'},
+        {id: 'active', type: 'boolean', value: 'false'},
+        {id: 'count', type: 'number', value: '42'},
+        {id: 'verified', type: 'boolean', value: 'True'},
+        {id: 'disabled', type: 'boolean', value: 'False'},
+        {id: 'invalid_boolean', type: 'boolean', value: 'maybe'},
+        {id: 'invalid_number', type: 'number', value: 'not_a_number'},
+        {id: 'empty_value', type: 'string', value: ''}
+      ]
+    };
+
+    // Mock the callInWindow function to capture the call
+    let capturedCall = null;
+    mock('callInWindow', function(method, action, params) {
+      capturedCall = {method: method, action: action, params: params};
+      return true;
+    });
+
+    // Call runCode to run the template's code.
+    runCode(mockData);
+
+    // Verify that the tag finished successfully.
+    assertApi('gtmOnSuccess').wasCalled();
+    
+    // Verify the sw call was made with correct parameters
+    assertThat(capturedCall.method).isEqualTo('sw');
+    assertThat(capturedCall.action).isEqualTo('custom-event');
+    assertThat(capturedCall.params.kind).isEqualTo('conversion');
+    assertThat(capturedCall.params.data).isEqualTo('user signup');
+    assertThat(capturedCall.params.pid).isEqualTo('4723ad53-8a19-43ab-9b0a-e6d3f1fbb2e4');
+    
+    // Verify values object with correct types
+    assertThat(capturedCall.params.values.user_id).isEqualTo('user123');
+    assertThat(capturedCall.params.values.premium).isEqualTo(true);
+    assertThat(capturedCall.params.values.score).isEqualTo(95.5);
+    assertThat(capturedCall.params.values.active).isEqualTo(false);
+    assertThat(capturedCall.params.values.count).isEqualTo(42);
+    assertThat(capturedCall.params.values.verified).isEqualTo(true);
+    assertThat(capturedCall.params.values.disabled).isEqualTo(false);
+    
+    // Verify invalid values are ignored (should not exist in values object)
+    assertThat(capturedCall.params.values.invalid_boolean).isUndefined();
+    assertThat(capturedCall.params.values.invalid_number).isUndefined();
+    assertThat(capturedCall.params.values.empty_value).isUndefined();
 
 
 ___NOTES___
