@@ -163,7 +163,7 @@ if (data.eventProperties && data.eventProperties.length > 0) {
         }
       } else if (prop.type === 'number') {
         let numValue = makeNumber(prop.value);
-        if (numValue !== null && numValue !== undefined) {
+        if (numValue !== null && numValue !== undefined && numValue === numValue) {
           parsedValue = numValue;
         } else {
           // Skip invalid number values
@@ -346,7 +346,10 @@ scenarios:
         {id: 'active', type: 'boolean', value: 'false'},
         {id: 'count', type: 'number', value: '42'},
         {id: 'verified', type: 'boolean', value: 'True'},
-        {id: 'disabled', type: 'boolean', value: 'False'}
+        {id: 'disabled', type: 'boolean', value: 'False'},
+        {id: 'invalid_boolean', type: 'boolean', value: 'maybe'},
+        {id: 'invalid_number', type: 'number', value: 'not_a_number'},
+        {id: 'empty_value', type: 'string', value: ''}
       ]
     };
 
@@ -378,6 +381,11 @@ scenarios:
     assertThat(capturedCall.params.values.count).isEqualTo(42);
     assertThat(capturedCall.params.values.verified).isEqualTo(true);
     assertThat(capturedCall.params.values.disabled).isEqualTo(false);
+    
+    // Verify invalid values are ignored (should not exist in values object)
+    assertThat(capturedCall.params.values.invalid_boolean).isUndefined();
+    assertThat(capturedCall.params.values.invalid_number).isUndefined();
+    assertThat(capturedCall.params.values.empty_value).isUndefined();
 
 
 ___NOTES___
