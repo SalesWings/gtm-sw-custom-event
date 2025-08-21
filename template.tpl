@@ -39,24 +39,26 @@ ___TEMPLATE_PARAMETERS___
         "type": "NON_EMPTY"
       }
     ],
-    "help": "Use a category label such as for example \"PDF View\", \"Video\" or \"Referrer\"."
+    "help": "Define how your custom event will be shown to users and how it is called for insights criteria rules. The format is \"[Event Category] Event Name\". Set an event category indicating the type of custom event, for example \"PDF\", \"Video\" or \"Buying signal\". Put text or a dynamic variable."
   },
   {
     "type": "TEXT",
     "name": "data",
     "displayName": "Event Name",
     "simpleValueType": true,
-    "help": "Insert a dynamic variable or a text which will show in the SalesWings activity history."
+    "help": "Define how your custom event will be shown to users and how it is called for insights criteria rules. The format is \"[Event Category] Event Name\". Set an event name indicating details, for example \"Clicked on XXXX\" or \"Viewed XXXX\". Put text or a dynamic variable."
   },
   {
     "type": "GROUP",
     "name": "eventPropertiesGroup",
-    "displayName": "Event Property / Lead Attribute Values",
+    "displayName": "Event Properties / Lead Attributes",
     "groupStyle": "ZIPPY_CLOSED",
     "subParams": [
       {
         "type": "SIMPLE_TABLE",
         "name": "eventProperties",
+        "displayName": "Values",
+        "help": "Send values to SalesWings lead attributes and event properties to use them for the various SalesWings use cases. For an ID, choose your own ID if the attribute has not been created yet in SalesWings. Creating an attribute in SalesWings later on with this same ID, will make the values visible and usable in SalesWings Falcon. Select the type of data that you are sending. For a value, Insert the variable of the data which you want to send to SalesWings. Add a text or value freely for something that you want to send with every custom event.",
         "newRowButtonText": "Add",
         "simpleTableColumns": [
           {
