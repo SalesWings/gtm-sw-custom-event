@@ -43,14 +43,14 @@ ___TEMPLATE_PARAMETERS___
         "type": "NON_EMPTY"
       }
     ],
-    "help": "Define how your custom event will be shown to users and how it is called for insights criteria rules. The format is \"[Event Category] Event Name\". Set an event category indicating the type of custom event, for example \"PDF\", \"Video\" or \"Buying signal\". Put text or a dynamic variable."
+    "help": "Define how your custom event will be shown to users and how it is called for insights criteria rules. The event will be sent to SalesWings in the following format: \"[Event Category] Event Name\". Set an event category indicating the type of custom event, for example \"PDF\", \"Video\" or \"Buying signal\". Put text or a dynamic variable."
   },
   {
     "type": "TEXT",
     "name": "data",
     "displayName": "Event Name",
     "simpleValueType": true,
-    "help": "Define how your custom event will be shown to users and how it is called for insights criteria rules. The format is \"[Event Category] Event Name\". Set an event name indicating details, for example \"Clicked on XXXX\" or \"Viewed XXXX\". Put text or a dynamic variable."
+    "help": "Define how your custom event will be shown to users and how it is called for insights criteria rules. The event will be sent to SalesWings in the following format: \"[Event Category] Event Name\". Set an event name indicating details, for example \"Clicked on XXXX\" or \"Viewed XXXX\". Put text or a dynamic variable."
   },
   {
     "type": "GROUP",
