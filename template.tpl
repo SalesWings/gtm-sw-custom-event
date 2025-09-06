@@ -142,6 +142,21 @@ const log = require('logToConsole');
 const callInWindow = require('callInWindow');
 const makeNumber = require('makeNumber');
 
+// Guard: require kind and data;
+let _missingRequired = false;
+if (!data.kind) {
+  log('Missing required field: kind');
+  _missingRequired = true;
+}
+if (!data.data) {
+  log('Missing required field: data');
+  _missingRequired = true;
+}
+if (_missingRequired) {
+  data.gtmOnFailure();
+  return;
+}
+
 // Build the event object
 let eventObj = {
   kind: data.kind,
@@ -392,9 +407,45 @@ scenarios:
     assertThat(capturedCall.params.values.invalid_number).isUndefined();
     assertThat(capturedCall.params.values.empty_value).isUndefined();
 
+- name: does not call sw when kind missing
+  code: |-
+    const mockData = {
+      // kind is intentionally missing
+      data: 'some payload'
+    };
+
+    let capturedCall;
+    mock('callInWindow', function(method, action, params) {
+      capturedCall = { method: method, action: action, params: params };
+      return true;
+    });
+
+    runCode(mockData);
+
+    assertApi('gtmOnFailure').wasCalled();
+    assertThat(capturedCall).isUndefined();
+    assertApi('logToConsole').wasCalledWith('Missing required field: kind');
+
+- name: does not call sw when data missing
+  code: |-
+    const mockData = {
+      // data is intentionally missing
+      kind: 'conversion'
+    };
+
+    let capturedCall;
+    mock('callInWindow', function(method, action, params) {
+      capturedCall = { method: method, action: action, params: params };
+      return true;
+    });
+
+    runCode(mockData);
+
+    assertApi('gtmOnFailure').wasCalled();
+    assertThat(capturedCall).isUndefined();
+    assertApi('logToConsole').wasCalledWith('Missing required field: data');
+
 
 ___NOTES___
 
 Created on 8/18/2020, 6:00:05 PM
-
-
