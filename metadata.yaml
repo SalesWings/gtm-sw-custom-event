@@ -15,6 +15,8 @@
 homepage: "https://www.saleswingsapp.com"
 documentation: "https://www.saleswingsapp.com/en/"
 versions:
+  - sha: 13f15038ba2fa45d156a6cfd5195d8614532db51
+    changeNotes: Enable sending lead attribute and event property values
   - sha: a0f99ed2e0990a5dca90d0101cd1205f48515284
     changeNotes: Minor naming fix
   - sha: 83205b05d01c6d2c81c62a5d1e0d0c9425070c81
