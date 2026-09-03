@@ -13,7 +13,7 @@
 # limitations under the License.
 
 homepage: "https://www.saleswingsapp.com"
-documentation: "https://support.saleswingsapp.com/"
+documentation: "https://support.saleswingsapp.com/en/articles/5780001-guide-how-to-send-lead-attributes-la-via-google-tag-manager-gtm"
 versions:
   - sha: 13f15038ba2fa45d156a6cfd5195d8614532db51
     changeNotes: Enable sending lead attribute and event property values
